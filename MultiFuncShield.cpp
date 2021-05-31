@@ -52,7 +52,7 @@ uint8_t pulseInBit;
 uint8_t pulseInPort;
 
 
-void MultiFuncShield::initShield()
+void initShield()
 {
     /* Set each LED pin to outputs */
   pinMode(LED[0], OUTPUT);
@@ -75,11 +75,7 @@ void MultiFuncShield::initShield()
   
   /* Set the buzzer pin to an output and turn the buzzer off */
   pinMode(BEEPER_PIN, OUTPUT);
-  if (beeperReversePolarity) {
-    digitalWrite(BEEPER_PIN, LOW);    
-  } else {
-    digitalWrite(BEEPER_PIN, HIGH);
-  }
+  digitalWrite(BEEPER_PIN, HIGH);
 }
 
 // ----------------------------------------------------------------------------------------------------
@@ -386,13 +382,6 @@ void MultiFuncShield::setBeepOffPeriod(unsigned int offPeriod)
   beeperOffPeriodReloadValue = offPeriod * 10;
   beeperModifyInProgress = 0; // must do this last.
 }
-
-// ----------------------------------------------------------------------------------------------------
-void MultiFuncShield::setBeeperReversePolarity(bool enable)
-{
-  beeperReversePolarity = enable;  
-}
-
 
 
 // ----------------------------------------------------------------------------------------------------
@@ -737,7 +726,7 @@ void MultiFuncShield::isrCallBack()
                 {          
                   beeperOnPeriodReloadValue = 0;    // beeper activity has now ended.
                   //digitalWrite(BEEPER_PIN, 1);
-                  writeBeeper(1 != beeperReversePolarity);
+                  writeBeeper(1);
                 }
                 else
                 {
@@ -758,13 +747,13 @@ void MultiFuncShield::isrCallBack()
     {
       // beep on
       //digitalWrite(BEEPER_PIN, 0);
-      writeBeeper(0 != beeperReversePolarity);
+      writeBeeper(0);
     }
     else
     {
       // beep off
       //digitalWrite(BEEPER_PIN, 1);
-      writeBeeper(1 != beeperReversePolarity);
+      writeBeeper(1);
     }
   }
    

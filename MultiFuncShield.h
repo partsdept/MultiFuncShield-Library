@@ -115,9 +115,6 @@ class MultiFuncShield
     // Use this to set the off period whilst the beeper is engaged,
     void setBeepOffPeriod(unsigned int offPeriod);
 
-    // call this before initShield() to fix some MFS boards (e.g. KNARCO) where beeper appears to be constantly stuck on
-    void setBeeperReversePolarity(bool enable);
-
     // Queues a button action to the button queue, e.g BUTTON_1_PRESSED
     void queueButton (byte button);
 
@@ -161,7 +158,6 @@ class MultiFuncShield
     int getLM35Data();
     
   private:
-    void initShield();
     TimerOne *timer1;
     volatile byte timerReadInProgress = 0;
     volatile byte timerWriteInProgress = 0;
@@ -189,8 +185,6 @@ class MultiFuncShield
     volatile byte beeperCycleCounter =0;
     volatile unsigned int beeperLoopCycleCounter =0;
     volatile unsigned int beeperLoopDelayPeriodReloadValue =0;
-    
-    bool beeperReversePolarity =0;
     
     byte displayIdx = 0;
     byte blinkEnabled = 0;  // least significant bits mapped to display digits.
@@ -229,4 +223,3 @@ extern int MedianOf5(int s0, int s1, int s2, int s3, int s4);
 extern int MedianOf9(int s0, int s1, int s2, int s3, int s4, int s5, int s6, int s7, int s8);
 
 #endif
-
